@@ -65,7 +65,7 @@ resource "terraform_data" "redis" {
 
   provisioner  "file"{
    source = "${path.module}/bootstrap.sh"
-   destination = "/tmp/bootstrap.sh redis ${var.environment}"
+   destination = "/tmp/bootstrap.sh"
 
   }
 
