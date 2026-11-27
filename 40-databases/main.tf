@@ -1,9 +1,8 @@
 resource "aws_instance" "mongodb" {
-  ami = local.ami_id
+  ami           = local.ami_id
   instance_type = "t3.micro"
-  subnet_id = local.database_subnet_id
+  subnet_id     = local.database_subnet_id
   vpc_security_group_ids = [local.mongodb_sg_id]
- 
   tags = local.common_tags
 }
 
@@ -19,37 +18,31 @@ resource "terraform_data" "bootstrap" {
     host        = aws_instance.mongodb.private_ip
   }
 
-  provisioner  "file"{
-   source = "${path.module}/bootstrap.sh"
-   destination = "/tmp/bootstrap.sh"
-
+  provisioner "file" {
+    source      = "${path.module}/bootstrap.sh"
+    destination = "/tmp/bootstrap.sh"
   }
 
-  
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/bootstrap.sh",
       "sudo sh /tmp/bootstrap.sh mongodb ${var.environment}"
     ]
   }
-  
 }
 
 resource "aws_instance" "redis" {
-  ami = local.ami_id
+  ami           = local.ami_id
   instance_type = "t3.micro"
-  subnet_id = local.database_subnet_id
+  subnet_id     = local.database_subnet_id
   vpc_security_group_ids = [local.redis_sg_id]
- 
-  tags = merge (
-
-      local.common_tags,
-
-      {
-        Name = "${var.project}-${var.environment}-redis"
-      })
-} 
-
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${var.project}-${var.environment}-redis"
+    }
+  )
+}
 
 resource "terraform_data" "redis" {
   triggers_replace = [
@@ -63,29 +56,26 @@ resource "terraform_data" "redis" {
     host        = aws_instance.redis.private_ip
   }
 
-  provisioner  "file"{
-   source = "${path.module}/bootstrap.sh"
-   destination = "/tmp/bootstrap.sh"
-
+  provisioner "file" {
+    source      = "${path.module}/bootstrap.sh"
+    destination = "/tmp/bootstrap.sh"
   }
 
-  
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/bootstrap.sh",
       "sudo sh /tmp/bootstrap.sh redis ${var.environment}"
     ]
   }
-  
 }
 
 resource "aws_instance" "mysql" {
-  ami = local.ami_id
+  ami           = local.ami_id
   instance_type = "t3.micro"
-  subnet_id = local.database_subnet_id
+  subnet_id     = local.database_subnet_id
   vpc_security_group_ids = [local.mysql_sg_id]
-    iam_instance_profile = aws_iam_instance_profile.mysql.name
-   tags = merge(
+  iam_instance_profile = aws_iam_instance_profile.mysql.name
+  tags = merge(
     local.common_tags,
     {
       Name = "${var.project}-${var.environment}-mysql"
@@ -105,21 +95,19 @@ resource "terraform_data" "mysql" {
     host        = aws_instance.mysql.private_ip
   }
 
-  provisioner  "file"{
-   source = "${path.module}/bootstrap.sh"
-   destination = "/tmp/bootstrap.sh"
-
+  provisioner "file" {
+    source      = "${path.module}/bootstrap.sh"
+    destination = "/tmp/bootstrap.sh"
   }
 
-  
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/bootstrap.sh",
       "sudo sh /tmp/bootstrap.sh mysql ${var.environment}"
     ]
   }
-  
 }
+
 
 resource "aws_instance" "rabbitmq" {
   ami           = local.ami_id
@@ -159,6 +147,3 @@ resource "terraform_data" "rabbitmq" {
     ]
   }
 }
- 
-
- 
