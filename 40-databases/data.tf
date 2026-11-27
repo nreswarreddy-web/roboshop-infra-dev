@@ -34,3 +34,4 @@ data "aws_ssm_parameter" "database_subnet_ids" {
   name = "/${var.project}/${var.environment}/database_subnet_ids"
 }
 
+data "aws_caller_identity" "current" {}
