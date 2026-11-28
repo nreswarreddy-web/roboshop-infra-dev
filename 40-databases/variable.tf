@@ -1,13 +1,13 @@
 # we are creating the instacne here 
 variable "project" {
-    default = "roboshop"
+  default = "roboshop"
 }
 
 variable "environment" {
-    default = "dev"
+  default = "dev"
 }
 
 variable "domain_name" {
-    default = "daw92ss.store"
-  
+  default = "daw92ss.store"
+
 }

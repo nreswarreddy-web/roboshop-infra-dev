@@ -20,7 +20,7 @@ resource "aws_iam_role" "mysql" {
   tags = merge(
     local.common_tags,
     {
-        Name = "${var.project}-${var.environment}-mysql"
+      Name = "${var.project}-${var.environment}-mysql"
     }
   )
 }
@@ -32,15 +32,15 @@ resource "aws_iam_policy" "mysql" {
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
   policy = templatefile("${path.module}/mysql-policy.json.tftpl", {
-    account_id    = local.account_id
-    project = var.project
+    account_id  = local.account_id
+    project     = var.project
     environment = var.environment
   })
 
   tags = merge(
     local.common_tags,
     {
-        Name = "${var.project}-${var.environment}-mysql"
+      Name = "${var.project}-${var.environment}-mysql"
     }
   )
 }
@@ -78,7 +78,7 @@ resource "aws_iam_role" "rabbitmq" {
   tags = merge(
     local.common_tags,
     {
-        Name = "${var.project}-${var.environment}-rabbitmq"
+      Name = "${var.project}-${var.environment}-rabbitmq"
     }
   )
 }
@@ -90,15 +90,15 @@ resource "aws_iam_policy" "rabbitmq" {
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
   policy = templatefile("${path.module}/rabbitmq-policy.json.tftpl", {
-    account_id    = local.account_id
-    project = var.project
+    account_id  = local.account_id
+    project     = var.project
     environment = var.environment
   })
 
   tags = merge(
     local.common_tags,
     {
-        Name = "${var.project}-${var.environment}-rabbitmq"
+      Name = "${var.project}-${var.environment}-rabbitmq"
     }
   )
 }
