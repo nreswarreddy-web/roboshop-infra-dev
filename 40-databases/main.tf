@@ -124,6 +124,12 @@ resource "aws_instance" "rabbitmq" {
 }
 
 resource "terraform_data" "rabbitmq" {
+
+  depends_on = [
+    aws_ssm_parameter.rabbitmq_user,
+    aws_ssm_parameter.rabbitmq_password
+  ]
+
   triggers_replace = [
     aws_instance.rabbitmq.id
   ]
